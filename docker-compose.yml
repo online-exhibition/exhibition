@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_PASSWORD: "${DB_PASSWORD}"
     ports:
       - 27017:27017
 
@@ -30,6 +30,8 @@ services:
       - ../repositories:/var/lib/chomim/repositories
     depends_on:
       - 'mongo'
+    environment:
+      DATABASE_PASSWORD: "${DB_PASSWORD}"
     ports:
       - 8080:8080
 
