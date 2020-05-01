@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  mongo:
+    container_name: exhibition_mongo
+    image: mongo:4-bionic
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27017:27017
+
+  gateway:
+    container_name: exhibition_gateway
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ../gateway/development/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - server
+      - ui
+
+  server:
+    container_name: exhibition_server
+    build: ../server
+    volumes:
+      - ../server:/usr/app
+      - ../repositories:/var/lib/chomim/repositories
+    depends_on:
+      - 'mongo'
+    ports:
+      - 8080:8080
+
+  ui:
+    container_name: exhibition_ui
+    build: ../ui
+    stdin_open: true
+    volumes:
+      - ../ui:/usr/app
+    ports:
+      - 3000:3000
