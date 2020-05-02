@@ -18,6 +18,7 @@ services:
       - 80:80
     volumes:
       - ../gateway/development/conf.d:/etc/nginx/conf.d
+      - ../gateway/development/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - server
       - ui
