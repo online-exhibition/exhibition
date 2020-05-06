@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   mongo:
@@ -30,13 +30,14 @@ services:
       - ../server:/usr/app
       - ../repositories:/var/lib/chomim/repositories
     depends_on:
-      - 'mongo'
+      - "mongo"
     environment:
       DATABASE_PASSWORD: "${DB_PASSWORD}"
       SMTP_SERVER: "${SMTP_SERVER}"
       SMTP_PORT: "${SMTP_PORT}"
       SMTP_USERNAME: "${SMTP_USERNAME}"
       SMTP_PASSWORD: "${SMTP_PASSWORD}"
+      HOSTNAME: "${HOSTNAME}"
     ports:
       - 8080:8080
 
