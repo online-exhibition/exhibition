@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 
 services:
   mongo:
@@ -8,6 +8,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: "${DB_PASSWORD}"
+    ports:
+      - 27017:27017
 
   gateway:
     container_name: exhibition_gateway
@@ -24,16 +26,25 @@ services:
   server:
     container_name: exhibition_server
     build: ../server
+    volumes:
+      - ../server:/usr/app
+      - ../repositories:/var/lib/chomim/repositories
     depends_on:
-      - "mongo"
+      - 'mongo'
     environment:
       DATABASE_PASSWORD: "${DB_PASSWORD}"
       SMTP_SERVER: "${SMTP_SERVER}"
       SMTP_PORT: "${SMTP_PORT}"
       SMTP_USERNAME: "${SMTP_USERNAME}"
       SMTP_PASSWORD: "${SMTP_PASSWORD}"
+    ports:
+      - 8080:8080
 
   ui:
     container_name: exhibition_ui
     build: ../ui
     stdin_open: true
+    volumes:
+      - ../ui:/usr/app
+    ports:
+      - 3000:3000
