@@ -54,10 +54,15 @@ const options = commandlineArgs([
   //     tag: gatewayTag,
   //   });
 
-  // await maintain.dockerCompose("./docker-compose.yml", {
-  //   serverTag,
-  //   gatewayTag,
-  // });
+  await maintain.dockerCompose("./docker-compose.yml", {
+    serverTag,
+    gatewayTag,
+  });
 
-  await npm.version(".", publishVersion);
+  await maintain.localCommit(
+    ".",
+    ["docker-compose.yml"],
+    "Use new published version " + publishVersion
+  );
+  // await npm.version(".", publishVersion);
 })();
